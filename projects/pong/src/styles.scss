@@ -1,9 +1,86 @@
 $font-famaly: Helvetica, sans-serif;
 $primary-color: #333;
 $text-color: white;
+$p1-color: red;
+$p2-color: blue;
+
+@mixin player($color, $pos-from-left) {
+  z-index: 2;
+  position: fixed;
+  top: 50%;
+  @if $pos-from-left {
+    left: 1%;
+  } @else {
+    right: 1%;
+  }
+  transform: translate(0%,-50%);
+  background-color: $color;
+  height: 100px;
+  width: 30px;
+}
+
+@mixin ball($color) {
+  z-index: 2;
+  background-color: $color;
+}
+
+@mixin score($color) {
+  z-index: 2;
+  color: $color;
+  font-size: 100px;
+}
 
 body {
   font-family: $font-famaly;
   color: $text-color;
   background: $primary-color;
+  display: flex;
+  flex-direction: row;
+  .gameTitle{
+    z-index: 1;
+    position: fixed;
+    top: 1%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    font-size: 80px;
+  }
+  .scores{
+    .p1Score{
+      position: fixed;
+      @include score($p1-color);
+      top: 0%;
+      left: 25%;
+      transform: translate(-50%,-50%);
+    }
+    .p2Score{
+      position: fixed;
+      top: 0%;
+      right: 25%;
+      transform: translate(-50%,-50%);
+      @include score($p2-color);
+    }
+  }
+
+  .divLine{
+    z-index: 0;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    height: 95%;
+    width: 0px;
+    //make it so the border changes colors when the ball passes through
+    border: 15px dashed grey;
+    outline: $primary-color solid 12px;
+    outline-offset: -12px;
+  }
+
+  .p1 {
+    @include player($p1-color, true);
+  }
+
+  .p2 {
+    @include player($p2-color, false);
+  }
+  
 }
