@@ -12,7 +12,16 @@ export class Ball {
   }
 
   getPos(): Vector {
-    return {x: this.x, y: this.y};
+    return {x: this.x, y: this.y + (0.5 * 10)};
+  }
+
+  setPos(x: number, y: number): void {
+    this.x = x;
+    this.y = y;
+  }
+
+  setVector(vec: Vector): void {
+    this.vector = vec;
   }
 
   getDirection(): Vector {

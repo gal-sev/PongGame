@@ -16,13 +16,20 @@ $p2-color: blue;
   transform: translate(0%,-50%);
   background-color: $color;
   border-radius: 15px;
-  height: 100px;
+  height: 104px; //each part is 12px
   width: 30px;
 }
 
 @mixin ball($color) {
   z-index: 2;
   background-color: $color;
+  position: fixed;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%,-50%);
+  height: 20px;
+  width: 20px;
+  border-radius: 10px;
 }
 
 @mixin score($color) {
@@ -74,6 +81,10 @@ body {
     border: 15px dashed grey;
     outline: $primary-color solid 12px;
     outline-offset: -12px;
+  }
+
+  .ball {
+    @include ball(white);
   }
 
   .p1 {

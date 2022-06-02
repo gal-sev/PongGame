@@ -51,19 +51,9 @@ function onKeyUp(e: any): void {
   }
 }
 
+//TODO: move to another class?
 function gameLoop(): void {
-  if(game_data.player1.isUpPressed() && game_data.player1.getPos().y >= 80) {
-    game_data.player1.movePlayer({x: 0, y: -1});
-  }
-  if(game_data.player1.isDownPressed() && game_data.player1.getPos().y <= SCREEN_HEIGHT - 80) {
-    game_data.player1.movePlayer({x: 0, y: 1});
-  }
-  if(game_data.player2.isUpPressed() && game_data.player2.getPos().y >= 80) {
-    game_data.player2.movePlayer({x: 0, y: -1});
-  }
-  if(game_data.player2.isDownPressed() && game_data.player2.getPos().y <= SCREEN_HEIGHT - 80) {
-    game_data.player2.movePlayer({x: 0, y: 1});
-  }
+  game_data.moveEntities(SCREEN_WIDTH, SCREEN_HEIGHT);
   updateElements();
 }
 
@@ -71,9 +61,19 @@ function gameLoop(): void {
 function updateElements(): void {
   let p1_div = document.getElementById("p1") as HTMLDivElement;
   let p2_div = document.getElementById("p2") as HTMLDivElement;
+  let ball_div = document.getElementById("ball") as HTMLDivElement;
+  let p1_score = document.getElementById("p1Score") as HTMLHeadingElement;
+  let p2_score = document.getElementById("p2Score") as HTMLHeadingElement;
   let p1_pos: Vector = game_data.player1.getPos();
   let p2_pos: Vector = game_data.player2.getPos();
+  let ball_pos: Vector = game_data.ball.getPos();
+
   p1_div.style.top = p1_pos.y + 'px';
   p2_div.style.top = p2_pos.y + 'px';
+  ball_div.style.top = ball_pos.y + 'px';
+  ball_div.style.left = ball_pos.x + 'px';
+  
+  p1_score.innerText = String(game_data.player1.getPoints());
+  p2_score.innerText = String(game_data.player2.getPoints());
 
 }
