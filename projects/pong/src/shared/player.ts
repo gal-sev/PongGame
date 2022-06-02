@@ -70,10 +70,6 @@ export class Player { //remove x? dont really need it...
       } else {
         vec_arr.dir_v.push({x: 1 * x_dir, y: 0});
       }
-      /*if(i == 3) {
-        vec_arr.pos_v.push({x: this.x, y: this.y + (i*13)});
-        vec_arr.dir_v.push({x: Math.abs(-3 + i) * x_dir, y: -3 + i});
-      }*/
     }
     /*
     -3 = -3+0

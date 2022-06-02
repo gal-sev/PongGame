@@ -33,7 +33,7 @@ export class GameData {
     this.player1.movePlayer(p1_vec);
     this.player2.movePlayer(p2_vec);
     
-    this.collisionEvent();
+    this.collisionEvent(SCREEN_HEIGHT);
 
     this.ball.moveBall();
 
@@ -56,19 +56,20 @@ export class GameData {
     }
   }
 
-  collisionEvent() {
+  collisionEvent(SCREEN_HEIGHT: number) {
     let p1_parts: {pos_v: Vector[], dir_v: Vector[]} = this.player1.getPaddleParts(true);
     let p2_parts: {pos_v: Vector[], dir_v: Vector[]} = this.player2.getPaddleParts(false);
     let new_ball_vec: Vector = {x:0, y:0};
     // console.log("p1 parts:" + " x: " + p1_parts.pos_v[0].x + " y: " + p1_parts.pos_v[0].y + " y2: " + p1_parts.pos_v[p1_parts.pos_v.length-1].y);
     // console.log(" ball: " + this.ball.getPos().x + " y: " + this.ball.getPos().y);
     
+    //paddle collision:
+    //TODO: fix the collision compensation here somhow later..
     if(this.ball.getPos().x <= p1_parts.pos_v[0].x+30 &&
-    this.ball.getPos().y >= p1_parts.pos_v[0].y && 
-    this.ball.getPos().y <= p1_parts.pos_v[p1_parts.pos_v.length-1].y) {
+    this.ball.getPos().y >= p1_parts.pos_v[0].y-20 && 
+    this.ball.getPos().y <= p1_parts.pos_v[p1_parts.pos_v.length-1].y+20) {
       for (let i = 0; i < p1_parts.pos_v.length; i++) {
-        if(this.ball.getPos().y >= p1_parts.pos_v[i].y) {
-          console.log("WOW: " + i + " " + this.ball.getPos().y + " " + p1_parts.pos_v[i].y);
+        if(this.ball.getPos().y >= p1_parts.pos_v[i].y-20) {
           new_ball_vec = p1_parts.dir_v[i];
         } else {
           break;
@@ -76,18 +77,21 @@ export class GameData {
       }
       this.ball.setVector(new_ball_vec);  
     }
-    //TODO: fix the collision compensation here somhow later..
     if(this.ball.getPos().x >= p2_parts.pos_v[0].x-70 &&
-    this.ball.getPos().y >= p2_parts.pos_v[0].y && 
-    this.ball.getPos().y <= p2_parts.pos_v[p2_parts.pos_v.length-1].y) {
+    this.ball.getPos().y >= p2_parts.pos_v[0].y-20 && 
+    this.ball.getPos().y <= p2_parts.pos_v[p2_parts.pos_v.length-1].y+20) {
       for (let i = 0; i < p2_parts.pos_v.length; i++) {
-        if(this.ball.getPos().y >= p2_parts.pos_v[i].y) {
+        if(this.ball.getPos().y >= p2_parts.pos_v[i].y-20) {
           new_ball_vec = p2_parts.dir_v[i];
         } else {
           break;
         }
       }
       this.ball.setVector(new_ball_vec);
+    }
+    if(this.ball.getPos().y <= 0 || this.ball.getPos().y >= SCREEN_HEIGHT) {
+      let current_dir_vec: Vector = this.ball.getDirection();
+      this.ball.setVector({x: current_dir_vec.x, y: current_dir_vec.y * -1});
     }
   }
 
