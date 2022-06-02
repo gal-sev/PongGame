@@ -1,29 +1,10 @@
-import { Say } from './shared/say.service';
-import { Dialog } from './shared/dialog';
+import { GameData } from './shared/gameData';
 
-class Module {
-  say = new Say();
-  select = 'Dialog';
+export const SCREEN_WIDTH: number = window.innerWidth; //forTest: REMOVE EXPORT LATER
+export const SCREEN_HEIGHT: number = window.innerHeight; //forTest: REMOVE EXPORT LATER
 
-  updateSelect(): void {
-    const select = document.getElementById('select') as HTMLSelectElement;
-    this.select = select.value;
-  }
 
-  updateDisplay(msg: string): void {
-    const display = document.getElementById('display') as HTMLDivElement;
-    display.innerText = msg;
-  }
-
-  shout(): void {
-    const input = document.getElementById('msg') as HTMLInputElement;
-    switch (this.select) {
-      case 'Alert': this.say.alert(input.value); break;
-      case 'Console': this.say.console(input.value); break;
-      case 'UI': this.updateDisplay(input.value); break;
-      case 'Dialog': dialog.open(input.value); break;
-    }
-  }
-}
-export const module = new Module();
-export const dialog = new Dialog();
+export const game_data = new GameData(
+  0, SCREEN_WIDTH, SCREEN_HEIGHT/2, //player
+  (SCREEN_WIDTH/2), (SCREEN_HEIGHT/2), {x: 1, y: 0} //ball
+  );
