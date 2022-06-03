@@ -14,26 +14,32 @@ export class GameData {
   }
 
   moveEntities(SCREEN_WIDTH: number, SCREEN_HEIGHT: number): void {
-    let p1_vec: Vector = {x: 0, y: 0}; 
+    let p1_vec: Vector = {x: 0, y: 0};
     let p2_vec: Vector = {x: 0, y: 0};
 
     if(this.player1.isUpPressed() && this.player1.getPos().y >= 80) {
-      p1_vec.y = p1_vec.y -1;
+      p1_vec.y = p1_vec.y -3;
     }
     if(this.player1.isDownPressed() && this.player1.getPos().y <= SCREEN_HEIGHT - 80) {
-      p1_vec.y = p1_vec.y + 1;
+      p1_vec.y = p1_vec.y + 3;
     }
     if(this.player2.isUpPressed() && this.player2.getPos().y >= 80) {
-      p2_vec.y = p2_vec.y - 1;
+      p2_vec.y = p2_vec.y - 3;
     }
     if(this.player2.isDownPressed() && this.player2.getPos().y <= SCREEN_HEIGHT - 80) {
-      p2_vec.y = p2_vec.y + 1;
+      p2_vec.y = p2_vec.y + 3;
     }
         
     this.player1.movePlayer(p1_vec);
     this.player2.movePlayer(p2_vec);
-    
-    this.collisionEvent(SCREEN_HEIGHT);
+
+    //TODO: move to the element manipulation func later
+    let middle_div = document.getElementById("divLine") as HTMLDivElement;
+    if(this.collisionEvent(SCREEN_HEIGHT, SCREEN_WIDTH)) {
+      middle_div.style.borderColor = "white";
+    } else {
+      middle_div.style.borderColor = "grey";
+    }
 
     this.ball.moveBall();
 
@@ -48,28 +54,29 @@ export class GameData {
     if(isLeftGoalHit) {
       this.player2.addPoint();
       this.ball.setPos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
-      this.ball.setVector({x: -1, y: 0});
+      this.ball.setVector({x: -3, y: 0});
     } else {
       this.player1.addPoint();
       this.ball.setPos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
-      this.ball.setVector({x: 1, y: 0});
+      this.ball.setVector({x: 3, y: 0});
     }
   }
 
-  collisionEvent(SCREEN_HEIGHT: number) {
+  collisionEvent(SCREEN_HEIGHT: number, SCREEN_WIDTH: number): boolean {
     let p1_parts: {pos_v: Vector[], dir_v: Vector[]} = this.player1.getPaddleParts(true);
     let p2_parts: {pos_v: Vector[], dir_v: Vector[]} = this.player2.getPaddleParts(false);
     let new_ball_vec: Vector = {x:0, y:0};
+    let ball_pos: Vector = this.ball.getPos();
     // console.log("p1 parts:" + " x: " + p1_parts.pos_v[0].x + " y: " + p1_parts.pos_v[0].y + " y2: " + p1_parts.pos_v[p1_parts.pos_v.length-1].y);
     // console.log(" ball: " + this.ball.getPos().x + " y: " + this.ball.getPos().y);
     
     //paddle collision:
     //TODO: fix the collision compensation here somhow later..
-    if(this.ball.getPos().x <= p1_parts.pos_v[0].x+30 &&
-    this.ball.getPos().y >= p1_parts.pos_v[0].y-20 && 
-    this.ball.getPos().y <= p1_parts.pos_v[p1_parts.pos_v.length-1].y+20) {
+    if(ball_pos.x <= p1_parts.pos_v[0].x+30 &&
+    ball_pos.y >= p1_parts.pos_v[0].y-20 && 
+    ball_pos.y <= p1_parts.pos_v[p1_parts.pos_v.length-1].y+20) {
       for (let i = 0; i < p1_parts.pos_v.length; i++) {
-        if(this.ball.getPos().y >= p1_parts.pos_v[i].y-20) {
+        if(ball_pos.y >= p1_parts.pos_v[i].y-20) {
           new_ball_vec = p1_parts.dir_v[i];
         } else {
           break;
@@ -77,11 +84,11 @@ export class GameData {
       }
       this.ball.setVector(new_ball_vec);  
     }
-    if(this.ball.getPos().x >= p2_parts.pos_v[0].x-70 &&
-    this.ball.getPos().y >= p2_parts.pos_v[0].y-20 && 
-    this.ball.getPos().y <= p2_parts.pos_v[p2_parts.pos_v.length-1].y+20) {
+    if(ball_pos.x >= p2_parts.pos_v[0].x-70 &&
+    ball_pos.y >= p2_parts.pos_v[0].y-20 && 
+    ball_pos.y <= p2_parts.pos_v[p2_parts.pos_v.length-1].y+20) {
       for (let i = 0; i < p2_parts.pos_v.length; i++) {
-        if(this.ball.getPos().y >= p2_parts.pos_v[i].y-20) {
+        if(ball_pos.y >= p2_parts.pos_v[i].y-20) {
           new_ball_vec = p2_parts.dir_v[i];
         } else {
           break;
@@ -89,9 +96,16 @@ export class GameData {
       }
       this.ball.setVector(new_ball_vec);
     }
-    if(this.ball.getPos().y <= 0 || this.ball.getPos().y >= SCREEN_HEIGHT) {
+    if(ball_pos.y <= 0 || ball_pos.y >= SCREEN_HEIGHT) {
       let current_dir_vec: Vector = this.ball.getDirection();
       this.ball.setVector({x: current_dir_vec.x, y: current_dir_vec.y * -1});
+    }
+
+    //TODO: remove x collision compensation
+    if(ball_pos.x >= (SCREEN_WIDTH/2) - 140 && ball_pos.x <= (SCREEN_WIDTH/2) + 100) {
+      return true;
+    } else {
+      return false;
     }
   }
 

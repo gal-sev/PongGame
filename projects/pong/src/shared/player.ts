@@ -66,9 +66,9 @@ export class Player { //remove x? dont really need it...
     for (let i = 0; i < 7; i++) {
       vec_arr.pos_v.push({x: this.x, y: this.y + (i*13) + 13}); //104(height) / 8(parts) = 13(each part)
       if(i !== 3) {
-        vec_arr.dir_v.push({x: Math.abs(-3 + i) * x_dir, y: -3 + i});
+        vec_arr.dir_v.push({x: Math.abs(-3 + i) * x_dir + (2 * x_dir), y: -3 + i});
       } else {
-        vec_arr.dir_v.push({x: 1 * x_dir, y: 0});
+        vec_arr.dir_v.push({x: 3 * x_dir, y: 0});
       }
     }
     /*

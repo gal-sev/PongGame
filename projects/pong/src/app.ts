@@ -7,7 +7,7 @@ export const SCREEN_HEIGHT: number = window.innerHeight; //forTest: REMOVE EXPOR
 
 export const game_data = new GameData(
   0, SCREEN_WIDTH, SCREEN_HEIGHT/2, //player
-  (SCREEN_WIDTH/2), (SCREEN_HEIGHT/2), {x: 1, y: 0} //ball
+  (SCREEN_WIDTH/2), (SCREEN_HEIGHT/2), {x: 3, y: 0} //ball
 );
 
 window.addEventListener('load', mainFunc);
