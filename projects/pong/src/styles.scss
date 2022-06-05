@@ -78,7 +78,6 @@ body {
     transform: translate(-50%,-50%);
     height: 95%;
     width: 0px;
-    //make it so the border changes colors when the ball passes through
     border: 15px dashed grey;
     outline: $primary-color solid 12px;
     outline-offset: -12px;

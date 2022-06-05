@@ -80,6 +80,7 @@ export class GameData {
       }
       this.ball.setVector(new_ball_vec);  
     }
+    //-40 compensation for the x position
     if(ball_pos.x >= p2_parts.pos_v[0].x-70 &&
     ball_pos.y >= p2_parts.pos_v[0].y-20 && 
     ball_pos.y <= p2_parts.pos_v[p2_parts.pos_v.length-1].y+20) {
