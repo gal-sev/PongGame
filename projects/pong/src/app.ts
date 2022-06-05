@@ -2,8 +2,8 @@ import { GameData } from './shared/gameData';
 import { Keys } from './shared/keys';
 import { Vector } from './shared/vector';
 
-export const SCREEN_WIDTH: number = window.innerWidth; //forTest: REMOVE EXPORT LATER
-export const SCREEN_HEIGHT: number = window.innerHeight; //forTest: REMOVE EXPORT LATER
+export const SCREEN_WIDTH: number = window.innerWidth;
+export const SCREEN_HEIGHT: number = window.innerHeight;
 
 export const game_data = new GameData(
   0, SCREEN_WIDTH, SCREEN_HEIGHT/2, //player
@@ -16,7 +16,8 @@ function mainFunc(): void {
   document.addEventListener('keydown', onKeyDown);
   document.addEventListener('keyup', onKeyUp);
 
-  setInterval(gameLoop, 5);
+  window.requestAnimationFrame(gameLoop);
+  //setInterval(gameLoop, 5);
 }
 
 function onKeyDown(e: any): void {
@@ -51,10 +52,10 @@ function onKeyUp(e: any): void {
   }
 }
 
-//TODO: move to another class?
 function gameLoop(): void {
   game_data.moveEntities(SCREEN_WIDTH, SCREEN_HEIGHT);
   updateElements();
+  window.requestAnimationFrame(gameLoop);
 }
 
 //TODO: move later to another class?

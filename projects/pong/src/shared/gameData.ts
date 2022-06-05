@@ -18,22 +18,21 @@ export class GameData {
     let p2_vec: Vector = {x: 0, y: 0};
 
     if(this.player1.isUpPressed() && this.player1.getPos().y >= 80) {
-      p1_vec.y = p1_vec.y -3;
+      p1_vec.y = p1_vec.y -5;
     }
     if(this.player1.isDownPressed() && this.player1.getPos().y <= SCREEN_HEIGHT - 80) {
-      p1_vec.y = p1_vec.y + 3;
+      p1_vec.y = p1_vec.y + 5;
     }
     if(this.player2.isUpPressed() && this.player2.getPos().y >= 80) {
-      p2_vec.y = p2_vec.y - 3;
+      p2_vec.y = p2_vec.y - 5;
     }
     if(this.player2.isDownPressed() && this.player2.getPos().y <= SCREEN_HEIGHT - 80) {
-      p2_vec.y = p2_vec.y + 3;
+      p2_vec.y = p2_vec.y + 5;
     }
         
     this.player1.movePlayer(p1_vec);
     this.player2.movePlayer(p2_vec);
 
-    //TODO: move to the element manipulation func later
     let middle_div = document.getElementById("divLine") as HTMLDivElement;
     if(this.collisionEvent(SCREEN_HEIGHT, SCREEN_WIDTH)) {
       middle_div.style.borderColor = "white";
@@ -67,11 +66,8 @@ export class GameData {
     let p2_parts: {pos_v: Vector[], dir_v: Vector[]} = this.player2.getPaddleParts(false);
     let new_ball_vec: Vector = {x:0, y:0};
     let ball_pos: Vector = this.ball.getPos();
-    // console.log("p1 parts:" + " x: " + p1_parts.pos_v[0].x + " y: " + p1_parts.pos_v[0].y + " y2: " + p1_parts.pos_v[p1_parts.pos_v.length-1].y);
-    // console.log(" ball: " + this.ball.getPos().x + " y: " + this.ball.getPos().y);
     
     //paddle collision:
-    //TODO: fix the collision compensation here somhow later..
     if(ball_pos.x <= p1_parts.pos_v[0].x+30 &&
     ball_pos.y >= p1_parts.pos_v[0].y-20 && 
     ball_pos.y <= p1_parts.pos_v[p1_parts.pos_v.length-1].y+20) {
@@ -101,7 +97,6 @@ export class GameData {
       this.ball.setVector({x: current_dir_vec.x, y: current_dir_vec.y * -1});
     }
 
-    //TODO: remove x collision compensation
     if(ball_pos.x >= (SCREEN_WIDTH/2) - 140 && ball_pos.x <= (SCREEN_WIDTH/2) + 100) {
       return true;
     } else {

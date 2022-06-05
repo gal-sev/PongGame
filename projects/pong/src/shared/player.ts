@@ -1,13 +1,12 @@
 import { Keys } from "./keys";
 import { Vector, addVector } from "./vector";
 
-export class Player { //remove x? dont really need it...
+export class Player {
   private x: number;
   private y: number;
   private points: number;
   private up_pressed: boolean;
   private down_pressed: boolean;
-  //add a height property to allow for paddle height change?
 
   constructor(x: number, y: number, points: number) {
     this.x = x;
@@ -66,21 +65,11 @@ export class Player { //remove x? dont really need it...
     for (let i = 0; i < 7; i++) {
       vec_arr.pos_v.push({x: this.x, y: this.y + (i*13) + 13}); //104(height) / 8(parts) = 13(each part)
       if(i !== 3) {
-        vec_arr.dir_v.push({x: Math.abs(-3 + i) * x_dir + (2 * x_dir), y: -3 + i});
+        vec_arr.dir_v.push({x: (Math.abs(-3 + i) * x_dir)*3, y: (-3 + i)* 2});
       } else {
-        vec_arr.dir_v.push({x: 3 * x_dir, y: 0});
+        vec_arr.dir_v.push({x: 6 * x_dir, y: 0});
       }
     }
-    /*
-    -3 = -3+0
-    -2 = -3+1
-    -1 = -3+2
-     0 = -3+3
-     //0 = -3+3
-     1 = -3+4
-     2 = -3+5
-     3 = -3+6
-    */
     return vec_arr;
   }
 }
