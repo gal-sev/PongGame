@@ -1,6 +1,6 @@
 # Pong Game
 
-![Game UI](./PongUI.png)
+![Game UI](./PongUI.PNG)
 
 # How to play?
 1. Run ```npm ci```
