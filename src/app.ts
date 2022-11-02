@@ -58,7 +58,6 @@ function gameLoop(): void {
   window.requestAnimationFrame(gameLoop);
 }
 
-//TODO: move later to another class?
 function updateElements(): void {
   let p1_div = document.getElementById("p1") as HTMLDivElement;
   let p2_div = document.getElementById("p2") as HTMLDivElement;
